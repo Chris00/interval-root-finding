@@ -1,0 +1,10 @@
+[package]
+name = "interval-root-finding"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+inari = { version = "1.0", optional = true, path = "/home/trch/software/Rust/Scientific/inari" }
+
+[dev-dependencies]
+inari = { version = "1.0", path = "/home/trch/software/Rust/Scientific/inari" }
