@@ -406,4 +406,10 @@ mod tests {
         assert_eq!(r.len(), 2);
         assert!(r.iter().any(|x| x.contains(2f64.sqrt())));
     }
+
+    #[test]
+    fn test_newton_empty() {
+        let r = newton1d(|x| x, |_| c!(1., 1.), c!(1., 2.)).roots();
+        assert_eq!(r.len(), 0);
+    }
 }
