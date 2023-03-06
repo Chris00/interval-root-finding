@@ -138,7 +138,7 @@ const RTOL: f64 = 4. * f64::EPSILON;
 /// Default absolute tolerance.
 const ATOL: f64 = 2e-12;
 
-/// Bisection algorithm.
+/// Interval bisection algorithm.
 ///
 /// An interval `x` is accepted if `x.wid() ≤ rtol * x.mag() + atol`
 /// where `rtol` and `atol` are the relative and absolute tolerance
@@ -348,14 +348,12 @@ where F: FnMut(I) -> I,
                         // (supposedly a singleton interval) is
                         // actually a zero up to the precision of `f`!
                         let tol = self.rtol * m.mag() + self.atol;
-                        let t = x.trisect(m, 0.5 * tol);
-                        if t[1] == x { // both other intervals are empty
-                            roots.push((x, status))
-                        } else {
-                            for x in t {
-                                if !x.is_empty() {
-                                    pq_push(&mut pq, x, status)
-                                }
+                        // Trisect so that the interval around `m`
+                        // does not pass the tolerance test and an
+                        // additional Newton step is performed.
+                        for x in x.trisect(m, tol) {
+                            if !x.is_empty() {
+                                pq_push(&mut pq, x, status)
                             }
                         }
                     } else {
